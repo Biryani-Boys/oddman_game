@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
-
+from sys import exit as e
 from PIL import ImageTk, Image
 
 
@@ -77,7 +77,7 @@ class App(Tk):
         with open("files.txt", 'a') as file:
             file.write(f"{filename},{self.inputtags.get('1.0', 'end-1c')},\n")  # writing the data into the app
 
-        exit()
+        e()
 
 
 if __name__ == '__main__':
