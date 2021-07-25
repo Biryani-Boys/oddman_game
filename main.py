@@ -15,7 +15,7 @@ class App(Tk):
         self.options = {'A': None, 'B': None, 'C': None, 'D': None}
         self.canvas = Canvas(self, width=1000, height=500, bg='beige')
         self.canvas.pack()
-        self.canvas.bind('<1>', self.make_circle)
+
 
         self.w = 190
         self.h = 150
@@ -60,47 +60,52 @@ class App(Tk):
         else:
             self.Output.delete("1.0", "end")
             self.Output.insert(END, "Wrong")
+            self.display_images()
 
     def display_images(self):
-        images_to_load = list(selector_session())
+        try:
+            images_to_load = list(selector_session())
 
-        correct_option = images_to_load[3]
+            correct_option = images_to_load[3]
 
-        # Distributing the images into A,B,C,D randomly and also getting the correct option marked.
-        for x, y in zip((3, 2, 1, 0), ("D", "C", "B", "A")):
-            chosen = images_to_load.pop(randint(0, x))
-            if chosen == correct_option:
-                self.correct = y
-            self.options[y] = chosen
+            # Distributing the images into A,B,C,D randomly and also getting the correct option marked.
+            for x, y in zip((3, 2, 1, 0), ("D", "C", "B", "A")):
+                chosen = images_to_load.pop(randint(0, x))
+                if chosen == correct_option:
+                    self.correct = y
+                self.options[y] = chosen
 
-        # Correct answer
-        # print(self.correct)
+            # Correct answer
+            #print(self.correct)
 
-        # Loading the image and putting in rectangle.
+            # Loading the image and putting in rectangle.
 
-        self.imgA = Image.open(self.options['A'])  # Rendering the image
-        self.imgA = self.imgA.resize((self.w - 1, self.h - 1),Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
-        self.imageA = ImageTk.PhotoImage(self.imgA)  # Loading a image object that can be used on canvas
-        self.canvas.create_image(101, 171, anchor=NW, image=self.imageA)
+            self.imgA = Image.open(self.options['A'])  # Rendering the image
+            self.imgA = self.imgA.resize((self.w - 1, self.h - 1),
+                                         Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
+            self.imageA = ImageTk.PhotoImage(self.imgA)  # Loading a image object that can be used on canvas
+            self.canvas.create_image(101, 171, anchor=NW, image=self.imageA)
 
-        self.imgB = Image.open(self.options['B'])  # Rendering the image
-        self.imgB = self.imgB.resize((self.w - 1, self.h - 1),Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
-        self.imageB = ImageTk.PhotoImage(self.imgB)  # Loading a image object that can be used on canvas
-        self.canvas.create_image(301, 171, anchor=NW, image=self.imageB)
+            self.imgB = Image.open(self.options['B'])  # Rendering the image
+            self.imgB = self.imgB.resize((self.w - 1, self.h - 1),
+                                         Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
+            self.imageB = ImageTk.PhotoImage(self.imgB)  # Loading a image object that can be used on canvas
+            self.canvas.create_image(301, 171, anchor=NW, image=self.imageB)
 
-        self.imgC = Image.open(self.options['C'])  # Rendering the image
-        self.imgC = self.imgC.resize((self.w - 1, self.h - 1),Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
-        self.imageC = ImageTk.PhotoImage(self.imgC)  # Loading a image object that can be used on canvas
-        self.canvas.create_image(501, 171, anchor=NW, image=self.imageC)
+            self.imgC = Image.open(self.options['C'])  # Rendering the image
+            self.imgC = self.imgC.resize((self.w - 1, self.h - 1),
+                                         Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
+            self.imageC = ImageTk.PhotoImage(self.imgC)  # Loading a image object that can be used on canvas
+            self.canvas.create_image(501, 171, anchor=NW, image=self.imageC)
 
-        self.imgD = Image.open(self.options['D'])  # Rendering the image
-        self.imgD = self.imgD.resize((self.w - 1, self.h - 1),Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
-        self.imageD = ImageTk.PhotoImage(self.imgD)  # Loading a image object that can be used on canvas
-        self.canvas.create_image(701, 171, anchor=NW, image=self.imageD)
+            self.imgD = Image.open(self.options['D'])  # Rendering the image
+            self.imgD = self.imgD.resize((self.w - 1, self.h - 1),
+                                         Image.ANTIALIAS)  # To fit the image in the box , we need to resize it , the modlue has inbuilt functions to do that.
+            self.imageD = ImageTk.PhotoImage(self.imgD)  # Loading a image object that can be used on canvas
+            self.canvas.create_image(701, 171, anchor=NW, image=self.imageD)
 
-    def make_circle(self, event):
-        x, y = event.x, event.y
-        print(x, y)
+        except:
+            self.display_images()
 
 
 if __name__ == '__main__':
