@@ -1,9 +1,9 @@
 from random import randint
 from tkinter import *
-
 from PIL import ImageTk, Image
-
 from selector import selector_session
+from tkinter import messagebox
+
 
 
 class App(Tk):
@@ -65,7 +65,7 @@ class App(Tk):
         self.Display.place(x=111, y=415 - 50)
 
         self.Pass_Button = Button(self.canvas, height=2, width=20, text="PASS", bg="#66ff33",
-                                  command=self.display_images)
+                                  command=self.passer)
         self.Pass_Button.place(x=713, y=90)
 
     def Take_input(self):
@@ -142,6 +142,10 @@ class App(Tk):
             D = self.canvas.create_image(701, 171, anchor=NW, image=self.imageD)
         except:
             self.display_images()
+
+    def passer(self):
+        messagebox.showinfo(title='Pass',message=f'Correct Option was : {self.correct}')
+        self.display_images()
 
 if __name__ == '__main__':
     Game = App()
