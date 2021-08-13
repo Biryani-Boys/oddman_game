@@ -8,6 +8,7 @@ from tkinter import messagebox
 
 class App(Tk):
 
+
     def __init__(self):
         super().__init__()
 
@@ -24,25 +25,25 @@ class App(Tk):
         l.config(font=("Courier", 16))
         l.place(x=100, y=100)
 
-        A = Label(self.canvas, text="A", bg="#92A8D1")
+        A = Button(self.canvas,width=3,height=1, text="A", bg="white",command=lambda: self.setTextInput('A'))
         A.config(font=("Courier", 16))
         A.place(x=183, y=332)
 
-        B = Label(self.canvas, text="B", bg="#92A8D1")
+        B = Button(self.canvas,width=3,height=1, text="B", bg="white",command=lambda: self.setTextInput('B'))
         B.config(font=("Courier", 16))
         B.place(x=392, y=333)
 
-        C = Label(self.canvas, text="C", bg="#92A8D1")
+        C = Button(self.canvas,width=3,height=1, text="C", bg="white",command=lambda: self.setTextInput('C'))
         C.config(font=("Courier", 16))
         C.place(x=589, y=332)
 
-        D = Label(self.canvas, text="D", bg="#92A8D1")
+        D = Button(self.canvas,width=2,height=1, text="D", bg="white",command=lambda: self.setTextInput('D'))
         D.config(font=("Courier", 16))
         D.place(x=794, y=336)
 
         self.scorebutton = Label(self.canvas, text=f"score:{self.score}", bg="#92A8D1")
         self.scorebutton.config(font=("Courier", 16))
-        self.scorebutton.place(x=651, y=419)
+        self.scorebutton.place(x=651, y=439)
 
         self.canvas.create_rectangle(100, 170, 100 + self.w, 170 + self.h, outline='#FF6F61')
         self.canvas.create_rectangle(300, 170, 300 + self.w, 170 + self.h, outline='#FF6F61')
@@ -52,17 +53,18 @@ class App(Tk):
         self.inputtxt = Text(self.canvas, height=1,
                              width=3, font=("Courier", 16),
                              bg="white")
-        self.inputtxt.place(x=475, y=350)
+        self.inputtxt.place(x=700, y=770)
         self.Output = Label(self.canvas, text="   ")
         self.Output.config(font=("Courier", 16))
 
-        self.Output.place(x=111, y=416)
+        self.Output.place(x=111, y=436)
 
         self.Display = Button(self.canvas, height=2,
                               width=20,
                               text="Check",
                               command=lambda: self.Take_input(), bg="#66ff33")
-        self.Display.place(x=111, y=415 - 50)
+        #self.Display.place(x=111, y=415 - 50 + 20)
+        self.Display.place(x=1001, y=800)
 
         self.Pass_Button = Button(self.canvas, height=2, width=20, text="PASS", bg="#66ff33",
                                   command=self.passer)
@@ -71,25 +73,25 @@ class App(Tk):
     def Take_input(self):
         INPUT = self.inputtxt.get("1.0", "end-1c")
         print(INPUT)
-        if (INPUT == self.correct):
-            self.Output.destroy()
-            self.Output = Label(self.canvas, text="Correct")
-            self.Output.config(font=("Courier", 16))
-            self.Output.place(x=111, y=416)
+        try:
+            if (INPUT[0] == self.correct):
+                self.Output.destroy()
+                self.Output = Label(self.canvas, text="Correct")
+                self.Output.config(font=("Courier", 16))
+                self.Output.place(x=111, y=436)
 
-            # Restart the stuff
-            self.changescore()
+                # Restart the stuff
+                self.changescore()
 
-            self.display_images()
+                self.display_images()
 
-
-
-
-        else:
-            self.Output.destroy()
-            self.Output = Label(self.canvas, text="Wrong")
-            self.Output.config(font=("Courier", 16))
-            self.Output.place(x=111, y=416)
+            else:
+                self.Output.destroy()
+                self.Output = Label(self.canvas, text="Wrong")
+                self.Output.config(font=("Courier", 16))
+                self.Output.place(x=111, y=436)
+        except:
+             messagebox.showinfo(title='Do again', message=f'Please Try Again')
 
     def changescore(self):
         self.score = self.score + 1
@@ -147,8 +149,14 @@ class App(Tk):
         messagebox.showinfo(title='Pass',message=f'Correct Option was : {self.correct}')
         self.display_images()
 
+    def setTextInput(self,text):
+        self.inputtxt.delete('1.0', END)
+
+        self.inputtxt.insert(INSERT, text)
+        self.Take_input()
+
+
 if __name__ == '__main__':
     Game = App()
     Game.display_images()
     Game.mainloop()
-
