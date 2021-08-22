@@ -90,6 +90,8 @@ class App(Tk):
                 self.Output = Label(self.canvas, text="Wrong")
                 self.Output.config(font=("Courier", 16))
                 self.Output.place(x=111, y=436)
+                messagebox.showinfo(title='Naah', message=f'Wrong!')
+                self.display_images()
         except:
              messagebox.showinfo(title='Do again', message=f'Please Try Again')
 
@@ -104,6 +106,7 @@ class App(Tk):
     def display_images(self):
         try:
             images_to_load = list(selector_session())
+
 
             correct_option = images_to_load[3]
 
@@ -160,3 +163,5 @@ if __name__ == '__main__':
     Game = App()
     Game.display_images()
     Game.mainloop()
+
+
