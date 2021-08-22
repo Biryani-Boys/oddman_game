@@ -19,16 +19,17 @@ def select_image():
     return (selected_line)
 
 
-def select_unrelated_image(selected_line, chosen_tag):
-    with open("files.txt", 'r') as file:
-        suitable_images = []  # All images which have the chosen tag. We will later choose 2 random images from these.
-        for line in file:
-            if (((',' + chosen_tag) not in line) or ((chosen_tag + ',') not in line) or (
-                    (',' + chosen_tag + ',') not in line)) and selected_line != line:
-                suitable_images.append(line)
-            pass
+def select_unrelated_image( suitable_images,chosen_tag):
 
-    unrelated_line = choice(suitable_images)  # Selecting a random image
+    # All images which have the chosen tag. We will later choose 2 random images from these.
+    choices=[]
+    for line in suitable_images:
+        if (((',' + chosen_tag) not in line) or ((chosen_tag + ',') not in line) or (
+                (',' + chosen_tag + ',') not in line)):
+            choices.append(line)
+        pass
+
+    unrelated_line = choice(choices)  # Selecting a random image
     return (unrelated_line)
 
 
@@ -43,12 +44,14 @@ def select_tag(selected_line):
 def select_four_images(selected_line, chosen_tag):
     with open("files.txt", 'r') as file:
         suitable_images = []  # All images which have the chosen tag. We will later choose 2 random images from these.
+        unsuitable_images=[]
         for line in file:
-            if ((((',' + chosen_tag) in line) or (chosen_tag + ',') in line) or (
-                    (',' + chosen_tag + ',') in line)) and selected_line != line:
-                suitable_images.append(line)
-            pass
-
+            if selected_line != line:
+                if ((((',' + chosen_tag) in line) or (chosen_tag + ',') in line) or ((',' + chosen_tag + ',') in line)):
+                    suitable_images.append(line)
+                    pass
+                else:
+                    unsuitable_images.append(line)
     first_line = choice(suitable_images)
     # Selecting a random image
 
@@ -56,16 +59,18 @@ def select_four_images(selected_line, chosen_tag):
 
     second_line = choice(suitable_images)  # Selecting a random image
 
+    suitable_images.remove(second_line)
     image1 = first_line.split(",")[0]
     image2 = second_line.split(",")[0]
     image3 = selected_line.split(",")[0]
-
-    image4 = select_unrelated_image(selected_line, chosen_tag).split(",")[0]  # correct option
+    image4 = select_unrelated_image(unsuitable_images, chosen_tag).split(",")[0]
+    # correct option
 
     return ((image1, image2, image3, image4))
 
 
 def selector_session():
     image = select_image()
+
     tag = select_tag(image)
     return (select_four_images(image, tag))
