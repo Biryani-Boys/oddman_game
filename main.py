@@ -3,7 +3,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 from selector import selector_session
 from tkinter import messagebox
-
+from subprocess import call
 
 
 class App(Tk):
@@ -45,6 +45,9 @@ class App(Tk):
         self.scorebutton.config(font=("Courier", 16))
         self.scorebutton.place(x=651, y=439)
 
+        self.NewInput_button=Button(self.canvas,width=15,height=1, text="Add Custom Images", bg="white",command=lambda: call("python input.py", shell=True))
+        self.NewInput_button.place(x=10, y=10)
+
         self.canvas.create_rectangle(100, 170, 100 + self.w, 170 + self.h, outline='#FF6F61')
         self.canvas.create_rectangle(300, 170, 300 + self.w, 170 + self.h, outline='#FF6F61')
         self.canvas.create_rectangle(500, 170, 500 + self.w, 170 + self.h, outline='#FF6F61')
@@ -72,7 +75,7 @@ class App(Tk):
 
     def Take_input(self):
         INPUT = self.inputtxt.get("1.0", "end-1c")
-        print(INPUT)
+
         try:
             if (INPUT[0] == self.correct):
                 self.Output.destroy()
@@ -90,7 +93,7 @@ class App(Tk):
                 self.Output = Label(self.canvas, text="Wrong")
                 self.Output.config(font=("Courier", 16))
                 self.Output.place(x=111, y=436)
-                messagebox.showinfo(title='Naah', message=f'Wrong!')
+                self.passer()
                 self.display_images()
         except:
              messagebox.showinfo(title='Do again', message=f'Please Try Again')
@@ -107,8 +110,8 @@ class App(Tk):
         try:
             images_to_load = list(selector_session())
 
-
             correct_option = images_to_load[3]
+
 
             # Distributing the images into A,B,C,D randomly and also getting the correct option marked.
             for x, y in zip((3, 2, 1, 0), ("D", "C", "B", "A")):
@@ -116,6 +119,8 @@ class App(Tk):
                 if chosen == correct_option:
                     self.correct = y
                 self.options[y] = chosen
+
+            #self.correct_tag=images_to_load[4]
 
             # Correct answer
             # print(self.correct)
@@ -149,7 +154,7 @@ class App(Tk):
             self.display_images()
 
     def passer(self):
-        messagebox.showinfo(title='Pass',message=f'Correct Option was : {self.correct}')
+        messagebox.showinfo(title='Pass',message=f'Correct Option was : {self.correct}\n ')
         self.display_images()
 
     def setTextInput(self,text):
@@ -163,5 +168,8 @@ if __name__ == '__main__':
     Game = App()
     Game.display_images()
     Game.mainloop()
+
+
+
 
 
