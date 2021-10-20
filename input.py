@@ -1,9 +1,32 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
+import base64
 
 from PIL import ImageTk, Image
+from ximilar.client import  GenericTaggingClient
 
+
+generic_client = GenericTaggingClient(token="TOKEN")
+
+
+
+
+def auto_tagger(number):
+    file = number
+    file_name = f"Images\\{file}.jpeg"
+    with open(f"D:\\Odd Man\\Images\\{file}.jpeg", "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+    result = generic_client.tags([{"_base64": f"data:image/jpeg;base64,{encoded_string}"}])
+    tags = result['records'][0]['_tags']
+    tags_as_list = ','
+    for x in tags:
+        if x['prob'] >= 0.7:
+            tags_as_list = tags_as_list + x['name'] + ','
+    print(file_name,tags_as_list)
+    return(file_name+tags_as_list)
+
+#print(auto_tagger(file_number)) will return the tags. file_number is the name of the file (it should be a integer , ex. 19.jpeg) 
 
 class App(Tk):
 
