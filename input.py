@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 
 from PIL import ImageTk, Image
-
+from auto_tags import auto_tagger
 
 class App(Tk):
 
@@ -38,6 +38,9 @@ class App(Tk):
                                     text="Finish",
                                     command=self.finish, bg="#66ff33")
         self.finish_button.place(x=108, y=437)
+        self.auto_tag_button=Button(self.canvas,height=2,width=20,text="AI Tagger",command=self.auto_tag,bg="#66ff33")
+        self.auto_tag_button.place(x=508,y=437)
+
 
     def open(self):
         self.file_chosen = askopenfilename(initialdir="/Desktop", title="Select file", filetypes=(
@@ -74,8 +77,32 @@ class App(Tk):
         # File saving with the tags
         with open("files.txt", 'a') as file:
             file.write(f"{filename},{self.inputtags.get('1.0', 'end-1c')},\n")  # writing the data into the app
-
+        messagebox.showinfo('Done',"Picture added")
         exit()
+
+
+    def auto_tag(self):
+        with open("count.txt", 'r') as count:
+            self.fileid = int(count.read()) + 1
+        with open("count.txt", 'w') as count:
+            count.write(str(self.fileid))
+
+        filename = f"Images\{self.fileid}.jpeg"  # The name of the new file
+
+        self.img.save(f"{filename}")  # saving the image file into the folder of the App
+
+        # File saving with the tags
+        with open("files.txt", 'a') as file:
+            file.write(f"{filename},{self.inputtags.get('1.0', 'end-1c')},\n")  # writing the data into the app
+
+
+        tags=auto_tagger(self.fileid)
+        if len(tags)>3:
+            self.inputtags.insert(END,tags[1:])
+        else:
+            self.inputtags.insert(END,"No tags found")
+        return()
+
 
 
 if __name__ == '__main__':
