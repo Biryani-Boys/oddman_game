@@ -6,7 +6,7 @@ from ximilar.client import  GenericTaggingClient
 
 
 def auto_tagger(number):
-    generic_client = GenericTaggingClient(token="77f6f7bde6e03ed9d764e6b9bd88c06d49d7f0f3")
+    generic_client = GenericTaggingClient(token="YOUR XIMILAR CLIENT TOKEN HERE")
     file = number
     file_name = f"Images\\{file}.jpeg"
     with open(file_name, "rb") as image_file:
