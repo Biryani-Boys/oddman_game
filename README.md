@@ -1,5 +1,6 @@
 # oddman
-A Educational Toy for small children.
+A Educational Game 
+for small children.
 
 ### Setup and Run the project
 
